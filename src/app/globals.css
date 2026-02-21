@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* QuestCareer Design Tokens */
+  --qc-primary: #6C3CE1;
+  --qc-secondary: #00D4AA;
+  --qc-accent: #F59E0B;
+  --qc-bg: #0F0F1A;
+  --qc-card: #1A1A2E;
+  --qc-text: #E2E8F0;
+  --qc-muted: #94A3B8;
+  --qc-danger: #EF4444;
+  --qc-success: #22C55E;
+}
+
+html.light {
+  --qc-bg: #F8FAFC;
+  --qc-card: #FFFFFF;
+  --qc-text: #1E293B;
+  --qc-muted: #64748B;
+}
+
+body {
+  color: var(--qc-text);
+  background: var(--qc-bg);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Focus */
+*:focus-visible {
+  outline: 2px solid var(--qc-primary);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(108, 60, 225, 0.3);
+  color: white;
+}
+
+/* Animations */
+@keyframes pulse-border {
+
+  0%,
+  100% {
+    border-color: var(--qc-primary);
+  }
+
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-pulse-border {
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.4s ease-out forwards;
+}
