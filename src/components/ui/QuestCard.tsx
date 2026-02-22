@@ -13,6 +13,7 @@ interface QuestCardProps {
     status: QuestStatus;
     contentType: ContentType;
     platformName?: string;
+    platformLogoUrl?: string;
 }
 
 const CONTENT_BADGES: Record<ContentType, { emoji: string; label: (p?: string) => string }> = {
@@ -39,6 +40,7 @@ export function QuestCard({
     status,
     contentType,
     platformName,
+    platformLogoUrl,
 }: QuestCardProps) {
     const badge = CONTENT_BADGES[contentType];
     const isExternal = contentType === 'external_article' || contentType === 'external_exercise';
@@ -57,7 +59,11 @@ export function QuestCard({
         <div className={`bg-qc-card border rounded-2xl p-5 transition-all ${STATUS_STYLES[status]}`}>
             {/* Content type badge */}
             <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-xs">{badge.emoji}</span>
+                {platformLogoUrl ? (
+                    <img src={platformLogoUrl} alt={platformName ?? ''} className="w-4 h-4 rounded-sm object-contain" />
+                ) : (
+                    <span className="text-xs">{badge.emoji}</span>
+                )}
                 <span className="text-[11px] text-qc-muted">{badge.label(platformName)}</span>
             </div>
 

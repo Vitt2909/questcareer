@@ -38,7 +38,7 @@ export default function CareerPlansPage() {
     };
 
     // Loading state
-    if (planMut.isPending || !plan) {
+    if (planMut.isPending) {
         return (
             <div className="max-w-2xl mx-auto py-10">
                 <div className="space-y-4">
@@ -55,18 +55,29 @@ export default function CareerPlansPage() {
     }
 
     // Error state
-    if (planMut.error) {
+    if (planMut.error || (!planMut.data && planMut.isError)) {
         return (
             <div className="max-w-2xl mx-auto text-center py-20">
                 <span className="text-4xl">⚠️</span>
                 <h2 className="text-base font-semibold text-qc-text mt-3">Erro ao gerar plano</h2>
-                <p className="text-sm text-qc-muted mt-1">{planMut.error.message}</p>
+                <p className="text-sm text-qc-muted mt-1">{planMut.error?.message ?? 'Ocorreu um erro inesperado'}</p>
                 <button
                     onClick={() => router.push('/career/roles')}
                     className="mt-4 px-4 py-2 bg-qc-primary text-white text-sm rounded-xl"
                 >
                     Voltar para áreas
                 </button>
+            </div>
+        );
+    }
+
+    // Not generated yet (idle) or no plan found
+    if (!plan) {
+        return (
+            <div className="max-w-2xl mx-auto py-10">
+                <p className="text-sm text-qc-muted text-center mt-6">
+                    Iniciando geração de plano...
+                </p>
             </div>
         );
     }

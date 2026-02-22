@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { router, protectedProcedure } from '@/lib/trpc/server';
 import { generateCareerPlan } from './generator';
 import { getRedis } from '@/lib/redis';
-import { scheduleDailyQuests } from '@/modules/execution/scheduler';
+import { scheduleWeek } from '@/modules/execution/scheduler';
 import { TRPCError } from '@trpc/server';
 
 export const careerRouter = router({
@@ -130,43 +130,12 @@ export const careerRouter = router({
                     );
             }
 
-            // Schedule first week of quests
-            const { data: availableQuests } = await ctx.supabase
-                .from('quests')
-                .select('id, estimated_minutes, is_review')
-                .in('skill_id', phase1Skills)
-                .eq('active', true);
-
-            const { data: profile } = await ctx.supabase
-                .from('profiles')
-                .select('daily_hours_available')
-                .eq('id', ctx.user.id)
-                .single();
-
-            const dailyMinutes = ((profile?.daily_hours_available as number) ?? 1) * 60;
-            const scheduled = scheduleDailyQuests(
+            const scheduled = await scheduleWeek(
+                ctx.supabase,
                 ctx.user.id,
-                dailyMinutes,
-                (availableQuests ?? []).map((q) => ({
-                    id: q.id as string,
-                    estimated_minutes: q.estimated_minutes as number,
-                    is_review: q.is_review as boolean,
-                }))
+                input.planId,
+                new Date()
             );
-
-            // Insert user_quests for tomorrow
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const dateStr = tomorrow.toISOString().split('T')[0];
-
-            for (const sq of scheduled) {
-                await ctx.supabase.from('user_quests').insert({
-                    user_id: ctx.user.id,
-                    quest_id: sq.questId,
-                    scheduled_date: dateStr,
-                    is_review: sq.isReview,
-                });
-            }
 
             // Track event
             await ctx.supabase.from('events').insert({
@@ -178,7 +147,6 @@ export const careerRouter = router({
             return {
                 planId: input.planId,
                 firstQuestsCount: scheduled.length,
-                scheduledDate: dateStr,
             };
         }),
 

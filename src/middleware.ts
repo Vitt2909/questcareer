@@ -1,6 +1,32 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+// Optional rate limiting via Upstash Redis
+let rateLimiter: { limit: (key: string) => Promise<{ success: boolean }> } | null = null;
+let assessmentLimiter: { limit: (key: string) => Promise<{ success: boolean }> } | null = null;
+
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    import('@upstash/ratelimit').then(({ Ratelimit }) => {
+        const { Redis } = require('@upstash/redis');
+        const redis = new Redis({
+            url: process.env.UPSTASH_REDIS_REST_URL!,
+            token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+        });
+        rateLimiter = new Ratelimit({
+            redis,
+            limiter: Ratelimit.slidingWindow(200, '1 m'),
+            prefix: 'rl:global',
+        });
+        assessmentLimiter = new Ratelimit({
+            redis,
+            limiter: Ratelimit.slidingWindow(60, '1 m'),
+            prefix: 'rl:assessment',
+        });
+    }).catch(() => {
+        console.warn('[middleware] Upstash rate limiting not available');
+    });
+}
+
 const PUBLIC_ROUTES = ['/', '/login', '/signup', '/auth/callback', '/onboarding', '/assessment', '/assessment/result', '/career/roles', '/career/plans'];
 const ADMIN_PREFIX = '/admin';
 const CRON_PREFIX = '/api/cron';
@@ -13,8 +39,26 @@ const hasSupabaseConfig =
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    // tRPC routes: let tRPC handle its own auth via protectedProcedure
+    // tRPC routes: apply rate limiting if available, then let tRPC handle auth
     if (pathname.startsWith(TRPC_PREFIX)) {
+        const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? 'anon';
+
+        // Assessment-specific rate limit
+        if (pathname.includes('assessment') && assessmentLimiter) {
+            const { success } = await assessmentLimiter.limit(ip);
+            if (!success) {
+                return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
+            }
+        }
+
+        // Global rate limit
+        if (rateLimiter) {
+            const { success } = await rateLimiter.limit(ip);
+            if (!success) {
+                return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
+            }
+        }
+
         return NextResponse.next();
     }
 

@@ -67,6 +67,40 @@ export const progressRouter = router({
             return data;
         }),
 
+    updateNotificationPrefs: protectedProcedure
+        .input(
+            z.object({
+                quest_reminder: z.boolean(),
+                weekly_digest: z.boolean(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            // Update each key in the JSONB column individually
+            const currentPrefs = await ctx.supabase
+                .from('profiles')
+                .select('notification_prefs')
+                .eq('id', ctx.user.id)
+                .single();
+
+            const existing = (currentPrefs.data?.notification_prefs as Record<string, unknown>) || {};
+
+            const { data, error } = await ctx.supabase
+                .from('profiles')
+                .update({
+                    notification_prefs: {
+                        ...existing,
+                        quest_reminder: input.quest_reminder,
+                        weekly_digest: input.weekly_digest,
+                    },
+                })
+                .eq('id', ctx.user.id)
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data;
+        }),
+
     submitFeedback: protectedProcedure
         .input(
             z.object({
@@ -78,7 +112,7 @@ export const progressRouter = router({
                     'general',
                 ]),
                 content: z.string().min(1),
-                context: z.record(z.unknown()).optional(),
+                context: z.record(z.string(), z.any()).optional(),
             })
         )
         .mutation(async ({ ctx, input }) => {

@@ -1,9 +1,21 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { notificationService } from '@/modules/notifications/service';
 
-export async function GET() {
-    // TODO: Implement daily quest reminders via Resend
-    // 1. Query profiles where notification_prefs.quest_reminder = true
-    // 2. Check who has pending quests for today
-    // 3. Send email reminder
-    return NextResponse.json({ ok: true, sent: 0 });
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: NextRequest) {
+    // Auth guard
+    const authHeader = request.headers.get('Authorization');
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    try {
+        const count = await notificationService.checkAndSendReminders();
+        console.log(`[Cron] Daily reminders sent: ${count}`);
+        return NextResponse.json({ ok: true, count });
+    } catch (err) {
+        console.error('[Cron] daily-reminders error:', err);
+        return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 });
+    }
 }

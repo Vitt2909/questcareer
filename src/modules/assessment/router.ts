@@ -39,7 +39,7 @@ export const assessmentRouter = router({
             z.object({
                 runId: z.string(),
                 eventType: z.string(),
-                payload: z.record(z.unknown()),
+                payload: z.record(z.string(), z.any()),
                 sequenceNumber: z.number(),
             })
         )
@@ -239,7 +239,7 @@ export const assessmentRouter = router({
             .eq('user_id', ctx.user.id)
             .not('completed_at', 'is', null);
 
-        const completedGames = [...new Set((runs ?? []).map((r) => r.game_id as string))];
+        const completedGames = Array.from(new Set((runs ?? []).map((r) => r.game_id as string)));
 
         // Current attributes
         const { data: attrs } = await ctx.supabase

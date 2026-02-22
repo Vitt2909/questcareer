@@ -112,10 +112,10 @@ function SortableTask({ task, isNew }: { task: Task; isNew: boolean }) {
                     <div className="flex items-center gap-2 flex-shrink-0">
                         <span className="text-[10px] text-qc-accent">{stars}</span>
                         <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${task.esforco === 'P'
-                                ? 'bg-green-500/10 text-green-400'
-                                : task.esforco === 'M'
-                                    ? 'bg-yellow-500/10 text-yellow-400'
-                                    : 'bg-red-500/10 text-red-400'
+                            ? 'bg-green-500/10 text-green-400'
+                            : task.esforco === 'M'
+                                ? 'bg-yellow-500/10 text-yellow-400'
+                                : 'bg-red-500/10 text-red-400'
                             }`}>
                             {esforcoLabel}
                         </span>
@@ -132,7 +132,7 @@ export default function TowerSort({ runId, seed, onComplete }: {
     seed: string;
     onComplete: (result: unknown) => void;
 }) {
-    const router = useRouter();
+
     const [tasks, setTasks] = useState<Task[]>(() => generateTasks(seed, 12));
     const [newTaskIds, setNewTaskIds] = useState<Set<string>>(new Set());
     const [timeLeft, setTimeLeft] = useState(90);

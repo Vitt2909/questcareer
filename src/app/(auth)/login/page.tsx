@@ -26,7 +26,7 @@ export default function AuthPage() {
 
     // Consent modal
     const [showConsent, setShowConsent] = useState(false);
-    const [termsAccepted, setTermsAccepted] = useState(true); // Mandatory, always on
+    const [termsAccepted] = useState(true); // Mandatory, always on
     const [notificationsAccepted, setNotificationsAccepted] = useState(false);
 
     const getSupabase = () => {

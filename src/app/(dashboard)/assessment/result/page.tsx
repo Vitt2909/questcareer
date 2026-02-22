@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { trpc } from '@/lib/trpc/client';
 import { AttributeCard } from '@/components/ui/AttributeCard';
-import { FeedbackButton } from '@/components/ui/FeedbackButton';
 import Link from 'next/link';
 
 // ── Descriptive texts per attribute per band ──

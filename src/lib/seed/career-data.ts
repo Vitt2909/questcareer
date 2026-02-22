@@ -488,7 +488,6 @@ const ROLE_DATA: Record<string, { skills: SeedSkill[]; resources: SeedResource[]
 // ═══ Quest generation from resources ═══
 function generateQuests(skills: SeedSkill[], resources: SeedResource[]): SeedQuest[] {
     const quests: SeedQuest[] = [];
-    let idx = 0;
     for (const resource of resources) {
         const mainSkill = resource.skill_ids[0];
         const rtMap: Record<string, string> = {
@@ -506,7 +505,6 @@ function generateQuests(skills: SeedSkill[], resources: SeedResource[]): SeedQue
             xp_reward: 30,
             difficulty: skills.find((s) => s.id === mainSkill)?.level === 'intermediate' ? 'intermediate' : 'beginner',
         });
-        idx++;
     }
     return quests;
 }

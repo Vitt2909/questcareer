@@ -8,7 +8,6 @@ Plataforma de desenvolvimento de carreira gamificada para estudantes.
 - **Supabase** (Auth + Postgres + Storage)
 - **tRPC v11** + React Query
 - **Zod** para validação
-- **Vercel** para deploy
 
 ## Setup em 5 Passos
 
@@ -58,30 +57,39 @@ npm run dev
 
 Acesse [http://localhost:3000](http://localhost:3000)
 
-## Verificação
+## Testes 🧪
 
-- **Healthcheck tRPC:** GET `/api/trpc/health` → `{ "result": { "data": { "ok": true } } }`
-- **Login:** `/login` com email/senha ou Google
-- **Banco:** Todas as tabelas, RLS policies e triggers criados
+A plataforma utiliza o **Vitest** para testes unitários.
 
-## Estrutura do Projeto
+```bash
+# Rodar todos os testes
+npm test
 
-```
-src/
-├── app/            # Rotas Next.js (App Router)
-├── components/     # Componentes reutilizáveis
-├── lib/            # Utilitários (Supabase, tRPC, analytics, seeds)
-├── modules/        # Módulos de domínio (assessment, career, execution, progress, notifications)
-├── types/          # TypeScript types
-└── middleware.ts   # Auth guard, rate limiting
+# Rodar testes em modo watch
+npx vitest
+
+# Gerar coverage
+npx vitest run --coverage
 ```
 
-## Deploy na Vercel
+Localização dos testes: `tests/unit/core.test.ts`
 
-1. Conecte o repositório na Vercel
-2. Configure as variáveis de ambiente no painel
-3. O `vercel.json` já configura os crons automaticamente
+## Admin & Conteúdo 🛠️
+
+1. Faça login com o email configurado em `ADMIN_EMAIL`.
+2. Acesse `/admin` para ver o dashboard de métricas.
+3. Vá em `/admin/content` e clique em **"Executar Seed"** para popular o banco com as plataformas, roles, skills e quests iniciais.
+
+## Funcionalidades Pilot v0.1
+
+- [x] **Avaliação de Perfil:** Quiz inicial para descobrir interesses.
+- [x] **Plano de Carreira:** Geração de trilhas personalizadas.
+- [x] **Quests Gamificadas:** YouTube Player integrado e Quests externas.
+- [x] **Sistema de XP:** Níveis, medalhas e bônus de streak.
+- [x] **Admin Dashboard:** Visão de alunos, feedback e acompanhamento.
+- [x] **Segurança:** Rate limiting e conformidade LGPD.
 
 ## Licença
 
 Uso interno — piloto escolar.
+

@@ -61,7 +61,7 @@ export default function AssessmentPage() {
         startMut.mutate({ gameId });
     };
 
-    const handleGameComplete = (result: unknown) => {
+    const handleGameComplete = () => {
         const gameId = activeGame?.id;
         setActiveGame(null);
         setJustCompleted(gameId ?? null);
@@ -125,8 +125,8 @@ export default function AssessmentPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
                             className={`bg-qc-card border rounded-2xl p-4 transition-all ${done
-                                    ? 'border-green-500/20'
-                                    : 'border-white/5 hover:border-white/10'
+                                ? 'border-green-500/20'
+                                : 'border-white/5 hover:border-white/10'
                                 }`}
                         >
                             <div className="flex items-center gap-4">

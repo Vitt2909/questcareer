@@ -109,7 +109,7 @@ export class DebugStoryCalculator implements AssessmentCalculator {
             const idx = a.payload.relatorio_index as number;
             attemptsPerQ.set(idx, (attemptsPerQ.get(idx) ?? 0) + 1);
         }
-        const avgAttempts = [...attemptsPerQ.values()].reduce((s, v) => s + v, 0) / attemptsPerQ.size;
+        const avgAttempts = Array.from(attemptsPerQ.values()).reduce((s, v) => s + v, 0) / attemptsPerQ.size;
         const persistencia = avgAttempts > 1.5 ? 1.0 : 0.5;
 
         return {
