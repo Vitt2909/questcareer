@@ -38,7 +38,6 @@ export function ExternalCoursePage({
     platform,
     skillId,
     xpReward,
-    estimatedMinutes,
     durationHours,
 }: ExternalCoursePageProps) {
     const router = useRouter();
@@ -251,8 +250,8 @@ export function ExternalCoursePage({
                                         onClick={() => canProceed && setWizardStep(2)}
                                         disabled={!canProceed}
                                         className={`flex-1 py-2.5 rounded-xl text-sm font-medium ${canProceed
-                                                ? 'bg-qc-primary text-white hover:bg-qc-primary/90'
-                                                : 'bg-white/5 text-qc-muted cursor-not-allowed'
+                                            ? 'bg-qc-primary text-white hover:bg-qc-primary/90'
+                                            : 'bg-white/5 text-qc-muted cursor-not-allowed'
                                             }`}
                                     >
                                         Continuar →
@@ -309,8 +308,8 @@ export function ExternalCoursePage({
                                         onClick={() => handleComplete(true)}
                                         disabled={isCompleting || !hasCert}
                                         className={`flex-1 py-2.5 rounded-xl text-sm font-medium ${hasCert
-                                                ? 'bg-qc-primary text-white hover:bg-qc-primary/90'
-                                                : 'bg-white/5 text-qc-muted cursor-not-allowed'
+                                            ? 'bg-qc-primary text-white hover:bg-qc-primary/90'
+                                            : 'bg-white/5 text-qc-muted cursor-not-allowed'
                                             } disabled:opacity-50`}
                                     >
                                         {isCompleting ? 'Enviando...' : 'Enviar e concluir ✓'}

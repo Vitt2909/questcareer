@@ -6,8 +6,10 @@ let rateLimiter: { limit: (key: string) => Promise<{ success: boolean }> } | nul
 let assessmentLimiter: { limit: (key: string) => Promise<{ success: boolean }> } | null = null;
 
 if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    import('@upstash/ratelimit').then(({ Ratelimit }) => {
-        const { Redis } = require('@upstash/redis');
+    Promise.all([
+        import('@upstash/ratelimit'),
+        import('@upstash/redis'),
+    ]).then(([{ Ratelimit }, { Redis }]) => {
         const redis = new Redis({
             url: process.env.UPSTASH_REDIS_REST_URL!,
             token: process.env.UPSTASH_REDIS_REST_TOKEN!,

@@ -1,0 +1,70 @@
+﻿  Ôû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./src/app/(dashboard)/career/roles/page.tsx
+25:11  Warning: The 'roles' logical expression could make the dependencies of useMemo Hook (at line 33) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'roles' in its own useMemo() Hook.  react-hooks/exhaustive-deps
+
+./src/components/ui/ExternalCoursePage.tsx
+105:25  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/ui/QuestCard.tsx
+63:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/modules/assessment/games/debug-story.tsx
+155:8  Warning: React Hook useEffect has a missing dependency: 'sendEvent'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+182:8  Warning: React Hook useEffect has a missing dependency: 'handleFinish'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/modules/assessment/games/pitch-sixty.tsx
+80:8  Warning: React Hook useEffect has an unnecessary dependency: 'startedRef.current'. Either exclude it or remove the dependency array. Mutable values like 'startedRef.current' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+
+./src/modules/assessment/games/tower-sort.tsx
+223:8  Warning: React Hook useEffect has a missing dependency: 'handleFinish'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/20) ...
+   Generating static pages (5/20) 
+   Generating static pages (10/20) 
+   Generating static pages (15/20) 
+ Ô£ô Generating static pages (20/20)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+Ôöî Ôùï /                                    5.36 kB        92.9 kB
+Ôö£ Ôùï /_not-found                          876 B          88.4 kB
+Ôö£ Ôùï /admin                               107 kB          223 kB
+Ôö£ Ôùï /admin/content                       1.04 kB         109 kB
+Ôö£ Ôùï /admin/feedback                      1.32 kB         110 kB
+Ôö£ Ôùï /admin/students                      1.65 kB         110 kB
+Ôö£ ãÆ /api/cron/daily-reminders            0 B                0 B
+Ôö£ ãÆ /api/cron/evaluate-adaptations       0 B                0 B
+Ôö£ ãÆ /api/cron/weekly-digest              0 B                0 B
+Ôö£ ãÆ /api/trpc/[trpc]                     0 B                0 B
+Ôö£ Ôùï /assessment                          24.7 kB         172 kB
+Ôö£ Ôùï /assessment/result                   2.85 kB         159 kB
+Ôö£ ãÆ /auth/callback                       0 B                0 B
+Ôö£ ãÆ /career/plans                        4.22 kB         152 kB
+Ôö£ Ôùï /career/roles                        1.81 kB         158 kB
+Ôö£ Ôùï /login                               75.8 kB         171 kB
+Ôö£ Ôùï /onboarding                          4.4 kB          152 kB
+Ôö£ Ôùï /portfolio                           643 B          88.1 kB
+Ôö£ Ôùï /profile                             1.37 kB         110 kB
+Ôö£ ãÆ /quest/[questId]                     3.59 kB         112 kB
+Ôö£ Ôùï /signup                              139 B          87.6 kB
+Ôöö Ôùï /skill-tree                          675 B          88.2 kB
++ First Load JS shared by all            87.5 kB
+  Ôö£ chunks/117-763015d75c9fbb58.js       31.9 kB
+  Ôö£ chunks/fd9d1056-bf8e48b7f621aa30.js  53.6 kB
+  Ôöö other shared chunks (total)          1.95 kB
+
+
+ãÆ Middleware                             97.5 kB
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+

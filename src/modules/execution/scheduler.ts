@@ -41,12 +41,9 @@ export async function scheduleWeek(
     const crisisMode = profile?.crisis_mode === true;
     const recoveryMode = profile?.recovery_mode === true;
 
-    // Fetch plan phases
-    const { data: plan } = await supabase
-        .from('career_plans')
-        .select('phases')
-        .eq('id', planId)
-        .single();
+    // Plan phases fetched for future use
+    // const { data: plan } = await supabase
+    //     .from('career_plans').select('phases').eq('id', planId).single();
 
     // Get available skills (current phase)
     const { data: availableSkills } = await supabase

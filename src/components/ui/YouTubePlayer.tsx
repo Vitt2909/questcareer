@@ -27,7 +27,6 @@ export function YouTubePlayer({
     title,
     xpReward,
     estimatedMinutes,
-    skillId,
 }: YouTubePlayerProps) {
     const router = useRouter();
     const [reflection, setReflection] = useState('');
@@ -165,8 +164,8 @@ export function YouTubePlayer({
                     onClick={() => canComplete && setShowDrawer(true)}
                     disabled={!canComplete || isCompleting}
                     className={`w-full py-3 rounded-xl text-sm font-medium transition-all ${canComplete
-                            ? 'bg-qc-primary text-white hover:bg-qc-primary/90 animate-pulse'
-                            : 'bg-white/5 text-qc-muted cursor-not-allowed'
+                        ? 'bg-qc-primary text-white hover:bg-qc-primary/90 animate-pulse'
+                        : 'bg-white/5 text-qc-muted cursor-not-allowed'
                         }`}
                 >
                     {canComplete
