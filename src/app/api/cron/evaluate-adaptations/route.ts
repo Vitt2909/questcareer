@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { evaluateAndAdapt } from '@/modules/execution/scheduler';
-import { notificationService } from '@/modules/notifications/service';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,6 +39,8 @@ export async function GET(request: NextRequest) {
 
                 // If recovery mode was activated, send the email
                 if (result.action === 'recovery_activated') {
+                    if (!process.env.RESEND_API_KEY) continue;
+
                     // Get user email
                     const { data: authUser } = await supabase.auth.admin.getUserById(userId);
                     if (!authUser?.user?.email) continue;
@@ -63,6 +64,7 @@ export async function GET(request: NextRequest) {
 
                     const quest = recoveryQuest?.quests as unknown as Record<string, unknown> | null;
 
+                    const { notificationService } = await import('@/modules/notifications/service');
                     const sent = await notificationService.sendEmail(
                         'recovery-mode',
                         authUser.user.email,
