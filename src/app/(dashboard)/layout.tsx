@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { FeedbackButton } from '@/components/ui/FeedbackButton';
 
 const NAV_ITEMS = [
-    { href: '/', icon: '🏠', label: 'Início' },
+    { href: '/dashboard', icon: '🏠', label: 'Início' },
     { href: '/skill-tree', icon: '🌳', label: 'Skill Tree' },
     { href: '/portfolio', icon: '🎖️', label: 'Portfólio' },
     { href: '/profile', icon: '👤', label: 'Perfil' },
@@ -28,7 +28,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 {/* Nav links */}
                 <nav className="flex-1 px-3 space-y-0.5">
                     {NAV_ITEMS.map(({ href, icon, label }) => {
-                        const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
+                        const active = pathname === href || pathname.startsWith(`${href}/`);
                         return (
                             <Link
                                 key={href}
@@ -93,7 +93,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <nav className="md:hidden fixed bottom-0 inset-x-0 bg-qc-card/95 backdrop-blur-md border-t border-white/5 z-30">
                 <div className="flex justify-around items-center py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
                     {NAV_ITEMS.map(({ href, icon, label }) => {
-                        const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
+                        const active = pathname === href || pathname.startsWith(`${href}/`);
                         return (
                             <Link
                                 key={href}
